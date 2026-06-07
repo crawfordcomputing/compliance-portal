@@ -1,0 +1,48 @@
+# Root gitignore for compliance-platform
+# Shared Node/Vite/Tailwind/npm ignores
+
+# dependencies
+node_modules/
+
+# build outputs
+dist/
+out/
+.vite/
+
+# environment files
+.env
+.env.*
+!/.env.example
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+*.log
+
+# system files
+.DS_Store
+Thumbs.db
+
+# editor settings
+.vscode/
+
+# API project ignores
+/compliance-platform-api/node_modules/
+/compliance-platform-api/dist/
+/compliance-platform-api/coverage/
+/compliance-platform-api/local-evidence/
+/compliance-platform-api/local-exports/
+/compliance-platform-api/.env
+/compliance-platform-api/.env.local
+/compliance-platform-api/*.log
+
+# UI project ignores
+/compliance-platform-ui/node_modules/
+/compliance-platform-ui/dist/
+/compliance-platform-ui/.env
+/compliance-platform-ui/*.log
+/compliance-platform-ui/.DS_Store

@@ -115,6 +115,10 @@ Sign-off chain per instance.
 | Q4 | Third-Party / Remote Access Account Review | **8.2.7** | No | Remote access account list, active/inactive confirmation, terminated accounts removed |
 | Q5 | Payment Page Integrity Attestation | **11.6.1** | `has_ecommerce` | See note below |
 | Q6 | Log Review Process Attestation | **10.4.1** | No | See note below |
+| Q7 | Database and File Server Retention checks | **3.2.1** | See note below |
+
+**Q7 - 3.2.1 Database and File Server Retention checks:**
+This requirement must have documentation of the process and output evidence that scans were ran looking for oldest data.
 
 **Q8 — 11.6.1 Payment Page (Continuous + Quarterly Attestation):**
 The standard requires a *change and tamper detection mechanism* to be active continuously on payment pages. The quarterly check here is an attestation that (a) the mechanism was active and functioning all quarter, (b) all alerts were investigated and resolved, and (c) no unauthorized script changes occurred. Evidence = monitoring tool output for the quarter + sign-off.

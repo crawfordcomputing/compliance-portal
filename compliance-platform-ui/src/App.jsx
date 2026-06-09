@@ -10,6 +10,7 @@ import AfterAction from './pages/AfterAction';
 import CompliancePage from './pages/CompliancePage';
 import ComplianceCheckDetail from './pages/ComplianceCheckDetail';
 import OrgSettings from './pages/OrgSettings';
+import KeyInventory from './pages/KeyInventory';
 import Layout from './components/Layout';
 
 function ProtectedRoute({ children }) {
@@ -36,6 +37,7 @@ function AppRoutes() {
         <Route path="tabletop/exercises/:id/after-action" element={<AfterAction />} />
         <Route path="compliance" element={<CompliancePage />} />
         <Route path="compliance/instances/:id" element={<ComplianceCheckDetail />} />
+        <Route path="key-inventory" element={<KeyInventory />} />
         <Route path="org-settings" element={<OrgSettings />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

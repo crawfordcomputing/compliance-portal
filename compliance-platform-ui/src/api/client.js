@@ -111,3 +111,17 @@ export const calendarApi = {
   createManual: (data) => api.post('/compliance-calendar/instances', data),
   refresh:      () => api.post('/compliance-calendar/refresh'),
 };
+
+export const keyInventoryApi = {
+  list:        (params) => api.get('/key-inventory', { params }),
+  get:         (id) => api.get(`/key-inventory/${id}`),
+  create:      (data) => api.post('/key-inventory', data),
+  update:      (id, data) => api.patch(`/key-inventory/${id}`, data),
+  rotate:      (id, data) => api.post(`/key-inventory/${id}/rotate`, data),
+  retire:      (id, data) => api.post(`/key-inventory/${id}/retire`, data),
+  expiring:    (days = 90) => api.get('/key-inventory/expiring', { params: { days } }),
+  custodians:  () => api.get('/key-inventory/eligible-custodians'),
+  roster:      () => api.get('/key-inventory/custodian-roster'),
+  attestations:(params) => api.get('/key-inventory/attestations', { params }),
+  attest:      (data) => api.post('/key-inventory/attestations', data),
+};

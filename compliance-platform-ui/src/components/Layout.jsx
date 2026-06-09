@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import {
   HomeIcon, FolderOpenIcon, ShieldCheckIcon,
   ArrowRightOnRectangleIcon, TableCellsIcon,
-  ClipboardDocumentCheckIcon, Cog6ToothIcon,
+  ClipboardDocumentCheckIcon, Cog6ToothIcon, KeyIcon,
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
@@ -12,6 +12,7 @@ const nav = [
   { label: 'Cases',        to: '/cases',               icon: FolderOpenIcon,             exact: false },
   { label: 'Tabletop',     to: '/tabletop',            icon: TableCellsIcon,             exact: false },
   { label: 'Compliance',   to: '/compliance',          icon: ClipboardDocumentCheckIcon, exact: false },
+  { label: 'Key Inventory',to: '/key-inventory',       icon: KeyIcon,                    exact: false },
   { label: 'Org Settings', to: '/org-settings',        icon: Cog6ToothIcon,              exact: false },
 ];
 

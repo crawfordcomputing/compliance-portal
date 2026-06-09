@@ -10,6 +10,7 @@ const logger = require('./services/logger');
 const { testConnection } = require('./db');
 const { startDeadlineEngine }       = require('./services/deadlineEngine');
 const { startComplianceScheduler }  = require('./services/complianceScheduler');
+const { startKeyExpiryEngine }      = require('./services/keyExpiryEngine');
 const { seedScenarios }          = require('./db/seedScenarios');
 const { seedComplianceChecks }   = require('./db/seedComplianceChecks');
 
@@ -25,6 +26,7 @@ const { router: exportsRoutes, downloadHandler } = require('./routes/exports');
 const complianceRoutes         = require('./routes/compliance');
 const orgSettingsRoutes        = require('./routes/orgSettings');
 const complianceCalendarRoutes = require('./routes/complianceCalendar');
+const keyInventoryRoutes       = require('./routes/keyInventory');
 
 const app = express();
 
@@ -53,6 +55,7 @@ app.use('/api/exercises/:id/gaps',         gapsRoutes);
 app.use('/api/compliance',                 complianceRoutes);
 app.use('/api/org-settings',              orgSettingsRoutes);
 app.use('/api/compliance-calendar',       complianceCalendarRoutes);
+app.use('/api/key-inventory',             keyInventoryRoutes);
 
 app.get('/health', (req, res) => res.json({ status: 'ok', phase: 5 }));
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
@@ -69,6 +72,7 @@ const PORT = process.env.PORT || 3000;
   await seedComplianceChecks();
   startDeadlineEngine();
   startComplianceScheduler();
+  startKeyExpiryEngine();
   app.listen(PORT, () => logger.info(`ir-platform listening on port ${PORT}`));
 })();
 

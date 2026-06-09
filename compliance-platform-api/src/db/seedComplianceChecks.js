@@ -320,6 +320,16 @@ const CHECKS = [
     conditional_on: null,
     sort_order: 370,
   },
+  {
+    name: 'Cryptographic Key Custodian Access Review',
+    description: 'Confirm that the recorded custodians for every active key and certificate are still correct and represent the fewest custodians necessary. Flag and remediate any stale or excess access.',
+    instructions: '1. Open the live custodian roster (Key Inventory > Custodian review).\n2. Confirm each active key\'s primary and backup custodian are still correct and still required.\n3. Flag any custodian who has left, changed roles, or is no longer needed.\n4. Update the affected key records.\n5. Submit the attestation to snapshot the confirmed roster and sign off the check.',
+    cadence: 'semi_annual',
+    pci_req_refs: ['3.6.1'],
+    required_evidence_labels: ['Confirmed Custodian Roster', 'Access Review Sign-off'],
+    conditional_on: null,
+    sort_order: 380,
+  },
 ];
 
 async function seedComplianceChecks() {

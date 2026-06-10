@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import clsx from 'clsx';
 import {
   ClockIcon, PaperClipIcon, DocumentTextIcon,
-  ShieldCheckIcon, ChevronRightIcon, ArrowLeftIcon,
+  ShieldCheckIcon, ChevronRightIcon, ChevronLeftIcon, ArrowLeftIcon,
   ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
 
@@ -21,7 +21,15 @@ const CLASSIFICATION_COLORS = {
   near_miss: 'bg-yellow-100 text-yellow-700',
   tabletop:  'bg-blue-100 text-blue-700',
 };
-const TRANSITIONS = { open: ['contained'], contained: ['resolved'], resolved: ['closed'], closed: [] };
+// All valid transitions in both directions
+const TRANSITIONS = {
+  open:      ['contained'],
+  contained: ['open', 'resolved'],
+  resolved:  ['contained', 'closed'],
+  closed:    ['resolved'],
+};
+// Statuses ordered so we can tell if a move is forward or backward
+const STATUS_ORDER = ['open', 'contained', 'resolved', 'closed'];
 
 function DeadlineCountdown({ ms }) {
   if (ms === null) return null;
@@ -218,7 +226,7 @@ export default function CaseDetail() {
     <div className="p-6 text-center text-gray-400 text-sm">Loading case…</div>
   );
   if (!caseData) return (
-    <div className="p-6 text-center text-gray-500">Case not found.</div>
+    <div className="p-6 text-center text-gray-500">Incident not found.</div>
   );
 
   const nextStatuses = TRANSITIONS[caseData.status] || [];
@@ -227,9 +235,9 @@ export default function CaseDetail() {
     <div className="p-6 space-y-5 max-w-5xl">
       {/* Header */}
       <div>
-        <button onClick={() => navigate('/cases')}
+        <button onClick={() => navigate('/incidents')}
           className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 mb-3">
-          <ArrowLeftIcon className="h-3 w-3" /> All cases
+          <ArrowLeftIcon className="h-3 w-3" /> All incidents
         </button>
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -248,11 +256,18 @@ export default function CaseDetail() {
             <DeadlineCountdown ms={caseData.deadline_remaining_ms} />
           </div>
           <div className="flex gap-2 shrink-0 flex-wrap justify-end">
-            {canTransition && nextStatuses.map(s => (
-              <button key={s} onClick={() => handleStatusChange(s)} className="btn-secondary capitalize">
-                Mark {s} <ChevronRightIcon className="h-3 w-3" />
-              </button>
-            ))}
+            {canTransition && nextStatuses.map(s => {
+              const isForward = STATUS_ORDER.indexOf(s) > STATUS_ORDER.indexOf(caseData.status);
+              return (
+                <button key={s} onClick={() => handleStatusChange(s)}
+                  className={clsx('capitalize inline-flex items-center gap-1',
+                    isForward ? 'btn-primary' : 'btn-secondary')}>
+                  {!isForward && <ChevronLeftIcon className="h-3 w-3" />}
+                  Mark {s}
+                  {isForward && <ChevronRightIcon className="h-3 w-3" />}
+                </button>
+              );
+            })}
             {['admin','ir_lead'].includes(user?.role) && (
               exportUrl ? (
                 <a href={exportUrl} target="_blank" rel="noreferrer" className="btn-primary">

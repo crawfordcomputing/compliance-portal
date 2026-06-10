@@ -73,7 +73,7 @@ const PORT = process.env.PORT || 3000;
   startDeadlineEngine();
   startComplianceScheduler();
   startKeyExpiryEngine();
-  app.listen(PORT, () => logger.info(`ir-platform listening on port ${PORT}`));
+  app.listen(PORT, () => logger.info(`compliance-platform listening on port ${PORT}`));
 })();
 
 module.exports = app;

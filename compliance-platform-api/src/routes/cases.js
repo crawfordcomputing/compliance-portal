@@ -25,9 +25,9 @@ const PCI_REQUIREMENTS = {
 const VALID_STATUSES = ['open', 'contained', 'resolved', 'closed'];
 const STATUS_TRANSITIONS = {
   open:      ['contained'],
-  contained: ['resolved'],
-  resolved:  ['closed'],
-  closed:    [],
+  contained: ['open', 'resolved'],
+  resolved:  ['contained', 'closed'],
+  closed:    ['resolved'],
 };
 
 // POST /api/cases — create a new case

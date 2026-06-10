@@ -46,9 +46,9 @@ export default function CaseList() {
         cde_scope: form.cde_scope ? form.cde_scope.split(',').map(s => s.trim()) : [],
         saq_type: form.saq_type || undefined,
       });
-      navigate(`/cases/${data.id}`);
+      navigate(`/incidents/${data.id}`);
     } catch (err) {
-      alert(err.response?.data?.error || 'Failed to create case');
+      alert(err.response?.data?.error || 'Failed to create incident');
     } finally {
       setSubmitting(false);
     }
@@ -59,10 +59,10 @@ export default function CaseList() {
   return (
     <div className="p-6 space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Cases</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Incidents</h1>
         {canCreate && (
           <button onClick={() => setShowNew(true)} className="btn-primary">
-            <PlusIcon className="h-4 w-4" /> New Case
+            <PlusIcon className="h-4 w-4" /> New Incident
           </button>
         )}
       </div>
@@ -84,7 +84,7 @@ export default function CaseList() {
       {/* New case form */}
       {showNew && (
         <div className="card p-5">
-          <h2 className="font-semibold text-gray-900 mb-4">New Case</h2>
+          <h2 className="font-semibold text-gray-900 mb-4">New Incident</h2>
           <form onSubmit={handleCreate} className="grid grid-cols-2 gap-4">
             <div className="col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
@@ -115,7 +115,7 @@ export default function CaseList() {
             <div className="col-span-2 flex gap-3 justify-end">
               <button type="button" onClick={() => setShowNew(false)} className="btn-secondary">Cancel</button>
               <button type="submit" disabled={submitting} className="btn-primary">
-                {submitting ? 'Creating…' : 'Create Case'}
+                {submitting ? 'Creating…' : 'Create Incident'}
               </button>
             </div>
           </form>
@@ -127,7 +127,7 @@ export default function CaseList() {
         {loading ? (
           <div className="p-8 text-center text-gray-400 text-sm">Loading…</div>
         ) : cases.length === 0 ? (
-          <div className="p-8 text-center text-gray-400 text-sm">No cases found.</div>
+          <div className="p-8 text-center text-gray-400 text-sm">No incidents found.</div>
         ) : (
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-100">
@@ -139,7 +139,7 @@ export default function CaseList() {
             </thead>
             <tbody className="divide-y divide-gray-50">
               {cases.map(c => (
-                <tr key={c.id} onClick={() => navigate(`/cases/${c.id}`)}
+                <tr key={c.id} onClick={() => navigate(`/incidents/${c.id}`)}
                   className="hover:bg-gray-50 cursor-pointer transition-colors">
                   <td className="px-4 py-3 font-medium text-gray-900 max-w-xs truncate">{c.title}</td>
                   <td className="px-4 py-3"><span className={clsx('badge', CLASSIFICATION_COLORS[c.classification])}>{c.classification}</span></td>

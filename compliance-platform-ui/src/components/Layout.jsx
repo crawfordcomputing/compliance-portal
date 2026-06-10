@@ -7,13 +7,20 @@ import {
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
+const ROLE_LABELS = {
+  admin:      'Admin',
+  ir_lead:    'Compliance Lead',
+  ir_analyst: 'Compliance Analyst',
+  readonly:   'Read Only',
+};
+
 const nav = [
-  { label: 'Dashboard',    to: '/',                    icon: HomeIcon,                   exact: true },
-  { label: 'Cases',        to: '/cases',               icon: FolderOpenIcon,             exact: false },
-  { label: 'Tabletop',     to: '/tabletop',            icon: TableCellsIcon,             exact: false },
-  { label: 'Compliance',   to: '/compliance',          icon: ClipboardDocumentCheckIcon, exact: false },
-  { label: 'Key Inventory',to: '/key-inventory',       icon: KeyIcon,                    exact: false },
-  { label: 'Org Settings', to: '/org-settings',        icon: Cog6ToothIcon,              exact: false },
+  { label: 'Dashboard',    to: '/',             icon: HomeIcon,                   exact: true  },
+  { label: 'Compliance',   to: '/compliance',   icon: ClipboardDocumentCheckIcon, exact: false },
+  { label: 'Key Inventory',to: '/key-inventory',icon: KeyIcon,                    exact: false },
+  { label: 'Incidents',    to: '/incidents',    icon: FolderOpenIcon,             exact: false },
+  { label: 'Tabletop',     to: '/tabletop',     icon: TableCellsIcon,             exact: false },
+  { label: 'Org Settings', to: '/org-settings', icon: Cog6ToothIcon,              exact: false },
 ];
 
 export default function Layout() {
@@ -51,7 +58,7 @@ export default function Layout() {
         <div className="px-3 py-4 border-t border-brand-700">
           <div className="px-3 mb-3">
             <p className="text-xs text-brand-300 truncate">{user?.email}</p>
-            <p className="text-xs text-brand-400 capitalize">{user?.role?.replace('_', ' ')}</p>
+            <p className="text-xs text-brand-400">{ROLE_LABELS[user?.role] ?? user?.role}</p>
           </div>
           <button onClick={handleLogout}
             className="flex w-full items-center gap-3 px-3 py-2 rounded-md text-sm

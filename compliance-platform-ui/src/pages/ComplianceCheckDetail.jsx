@@ -91,7 +91,7 @@ export default function ComplianceCheckDetail() {
   return (
     <div className="p-6 space-y-5 max-w-3xl">
       <button
-        onClick={() => navigate('/compliance', { state: { tab: location.state?.tab || 'period' } })}
+        onClick={() => navigate(location.state?.tab === 'all' ? '/compliance/all' : '/compliance')}
         className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
       >
         <ArrowLeftIcon className="h-3 w-3" /> Compliance

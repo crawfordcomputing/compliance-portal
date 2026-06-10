@@ -50,3 +50,19 @@
 - **Simplicity First**: Make every change as simple as possible. Impact minimal code.
 - **No Laziness**: Find root causes. No temporary fixes. Senior developer standards.
 - **Minimal Impact**: Changes should only touch what's necessary. Avoid introducing bugs.
+## File Writing Rules
+
+### NEVER use Edit or Write tools for file content — they silently truncate
+- The Edit and Write tools write to a pre-allocated memory buffer and do NOT safely update disk
+- Files appear updated in Claude's context but are truncated on disk
+- **ALWAYS use bash to write file content:**
+  ```bash
+  python3 -c "from pathlib import Path; Path('file.py').write_text('''FULL CONTENT''')"
+  ```
+  or for large files, use a heredoc:
+  ```bash
+  cat << 'EOF' > file.py
+  FULL CONTENT
+  EOF
+  ```
+- After writing, ALWAYS verify with: `wc -l file.py && grep -c 'expected_string' file.py`

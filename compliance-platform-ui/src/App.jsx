@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -30,12 +30,17 @@ function AppRoutes() {
       <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
       <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
         <Route index element={<Dashboard />} />
-        <Route path="cases" element={<CaseList />} />
-        <Route path="cases/:id" element={<CaseDetail />} />
+        {/* Incidents (formerly Cases) */}
+        <Route path="incidents" element={<CaseList />} />
+        <Route path="incidents/:id" element={<CaseDetail />} />
+        {/* Legacy /cases redirect so old bookmarks still work */}
+        <Route path="cases" element={<Navigate to="/incidents" replace />} />
+        <Route path="cases/:id" element={<RedirectCaseToIncident />} />
         <Route path="tabletop" element={<Tabletop />} />
         <Route path="tabletop/exercises/:id" element={<ExerciseDetail />} />
         <Route path="tabletop/exercises/:id/after-action" element={<AfterAction />} />
         <Route path="compliance" element={<CompliancePage />} />
+        <Route path="compliance/all" element={<CompliancePage />} />
         <Route path="compliance/instances/:id" element={<ComplianceCheckDetail />} />
         <Route path="key-inventory" element={<KeyInventory />} />
         <Route path="org-settings" element={<OrgSettings />} />
@@ -43,6 +48,11 @@ function AppRoutes() {
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
+}
+
+function RedirectCaseToIncident() {
+  const { id } = useParams();
+  return <Navigate to={`/incidents/${id}`} replace />;
 }
 
 export default function App() {

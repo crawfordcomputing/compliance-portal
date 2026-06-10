@@ -120,7 +120,7 @@ router.get('/instances', async (req, res) => {
     const params = [];
     if (cadence) { params.push(cadence); sql += ` AND cd.cadence = $${params.length}`; }
     if (status)  { params.push(status);  sql += ` AND ci.status = $${params.length}`; }
-    if (year)    { params.push(`${year}-%`); sql += ` AND ci.period_label LIKE $${params.length}`; }
+    if (year)    { params.push(Number(year)); sql += ` AND EXTRACT(YEAR FROM ci.period_start) = $${params.length}`; }
 
     sql += ' GROUP BY ci.id, cd.id, u.full_name ORDER BY ci.due_date ASC, cd.sort_order';
 

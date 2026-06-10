@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { keyInventoryApi } from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { useLocation } from 'react-router-dom';
 import {
   KeyIcon, PlusIcon, ArrowPathIcon, ArchiveBoxXMarkIcon,
   ShieldCheckIcon, XMarkIcon, ClipboardDocumentCheckIcon,
@@ -60,6 +61,7 @@ const EMPTY_FORM = {
 
 export default function KeyInventory() {
   const { user } = useAuth();
+  const location = useLocation();
   const canEdit = ['admin', 'ir_lead'].includes(user?.role);
 
   const [keys, setKeys]           = useState([]);
@@ -88,6 +90,19 @@ export default function KeyInventory() {
   useEffect(() => {
     if (canEdit) keyInventoryApi.custodians().then(({ data }) => setCustodians(data)).catch(() => {});
   }, [canEdit]);
+
+  // Auto-open modal when navigated here with a specific key ID (e.g. from compliance calendar).
+  // Use a ref so it only fires once — location.state persists across re-renders.
+  const openKeyId = location.state?.openKeyId;
+  const openKeyConsumed = useRef(false);
+  useEffect(() => {
+    if (!openKeyId || loading || !keys.length || openKeyConsumed.current) return;
+    const key = keys.find(k => k.id === openKeyId);
+    if (key) {
+      openKeyConsumed.current = true;
+      setEditing(toForm(key));
+    }
+  }, [openKeyId, loading, keys]);
 
   const keksList = keys.filter(k => k.key_role === 'KEK');
 

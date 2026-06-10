@@ -112,6 +112,11 @@ export const calendarApi = {
   refresh:      () => api.post('/compliance-calendar/refresh'),
 };
 
+export const complianceApi = {
+  annual: (year) => api.get(`/compliance/${year}`),
+  update: (year, ref, data) => api.patch(`/compliance/${year}/${encodeURIComponent(ref)}`, data),
+};
+
 export const keyInventoryApi = {
   list:        (params) => api.get('/key-inventory', { params }),
   get:         (id) => api.get(`/key-inventory/${id}`),

@@ -1,5 +1,5 @@
 {
-  "name": "ir-platform",
+  "name": "compliance-platform",
   "version": "0.2.0",
   "description": "Open-source PCI-DSS Compliance Platform Platform",
   "main": "src/app.js",
